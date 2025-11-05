@@ -762,4 +762,197 @@ Crée un fichier .xlsm d'exercice VBA :
 ---
 
 *Ce template est optimisé pour une utilisation avec Claude (Anthropic) et exploite ses capacités de création de fichiers, d'artifacts, et de génération de contenus pédagogiques interactifs.*
-# Module-7
+# Module 7 - Déclarer des Procédures avec des Paramètres
+
+**Niveau 3 - Intermédiaire/Avancé** | Formation VBA Excel - Certifications TOSA & ICDL
+
+---
+
+## 📚 Contenu du Module
+
+Ce module couvre les procédures et fonctions avec paramètres en VBA Excel, incluant :
+
+- ✅ **Appeler une procédure ou une fonction** (Sub vs Function)
+- ✅ **Passage par référence ByRef ou ByVal** (différences et usage)
+- ✅ **Utiliser les fonctions VBA intégrées** (String, Math, Date, Conversion)
+
+---
+
+## 📦 Fichiers Disponibles
+
+### 📄 Supports de Cours
+- **`Module-7-Procedures-Parametres.md`** (40 Ko)
+  - Cours théorique complet avec 4 exemples détaillés
+  - 3 exercices pratiques progressifs (⭐⭐ à ⭐⭐⭐)
+  - QCM de 20 questions avec feedbacks
+  - Mini-projet d'évaluation (système de gestion de catalogue)
+  - Durée estimée : 8-10 heures
+
+### 💻 Code VBA Prêt à l'Emploi
+- **`Module_Exemples.bas`** (8 Ko)
+  - Exemple 1 : Procédure avec paramètres simples
+  - Exemple 2 : Fonction avec retour de valeur (calcul TVA)
+  - Exemple 3 : Démonstration ByRef vs ByVal
+  - Exemple 4 : Utilisation intensive des fonctions VBA intégrées
+  - Procédure `TesterTousLesExemples()` pour lancement rapide
+
+- **`Module_Exercices_Solutions.bas`** (15 Ko)
+  - Solutions complètes des 3 exercices
+  - Code du mini-projet (catalogue produits)
+  - Fonctions réutilisables : validation, formatage, calculs
+  - Tests automatisés inclus
+
+### 📊 Données de Test
+- **`Donnees_Test_Remises.csv`** (1 Ko)
+  - 10 montants HT pour tester l'exercice 2 (calcul de remises)
+
+- **`Donnees_Test_Catalogue.csv`** (1 Ko)
+  - 10 produits pour tester le mini-projet
+
+### 📖 Documentation
+- **`GUIDE_INSTALLATION.md`** (12 Ko)
+  - Instructions pas-à-pas pour importer les modules VBA
+  - Configuration Excel et sécurité
+  - Résolution des problèmes courants
+  - Parcours d'apprentissage recommandé
+
+---
+
+## 🚀 Démarrage Rapide (5 minutes)
+
+### Option 1 : Utilisation Directe des Modules VBA
+
+1. **Créer un classeur Excel** `.xlsm`
+2. **Importer les modules** :
+   - Alt+F11 → Fichier → Importer
+   - Sélectionner `Module_Exemples.bas`
+   - Répéter pour `Module_Exercices_Solutions.bas`
+3. **Tester** : Alt+F8 → `TesterTousLesExemples` → Exécuter
+4. ✅ Les exemples s'exécutent automatiquement
+
+➡️ **Voir le guide complet** : [`GUIDE_INSTALLATION.md`](GUIDE_INSTALLATION.md)
+
+### Option 2 : Apprentissage Guidé
+
+1. **Lire le cours** : [`Module-7-Procedures-Parametres.md`](Module-7-Procedures-Parametres.md)
+2. **Pratiquer** avec les exercices proposés
+3. **Comparer** avec les solutions dans `Module_Exercices_Solutions.bas`
+4. **Évaluer** vos compétences avec le QCM et le mini-projet
+
+---
+
+## 🎯 Objectifs d'Apprentissage
+
+À la fin de ce module, vous serez capable de :
+
+| Compétence | Niveau | Critère de Réussite |
+|------------|--------|---------------------|
+| Créer des procédures paramétrées | I/A | Code fonctionnel, paramètres typés |
+| Choisir ByRef vs ByVal | I/A | Justification technique correcte |
+| Utiliser 15+ fonctions VBA | I | 80% de réussite au QCM |
+| Créer du code modulaire | A | Fonctions réutilisables |
+
+---
+
+## 📋 Prérequis
+
+- ✓ Excel 2021, 2024 ou Microsoft 365
+- ✓ Bases VBA : variables, types de données, structures conditionnelles
+- ✓ Compréhension des boucles (For/Next)
+- ✓ Notion de procédure simple (Sub/Function sans paramètres)
+
+---
+
+## 📊 Contenu Détaillé
+
+### Partie Théorique (3-4h)
+- **Section 1** : Sub vs Function - Différences et usages
+- **Section 2** : Passage de paramètres (ByRef / ByVal)
+- **Section 3** : Fonctions VBA intégrées par catégorie
+  - String : `Len()`, `Trim()`, `UCase()`, `Mid()`, `Replace()`, `InStr()`
+  - Math : `Round()`, `Int()`, `Abs()`, `Sqr()`
+  - Date : `Date`, `Now`, `DateAdd()`, `DateDiff()`, `Format()`
+  - Conversion : `CStr()`, `CInt()`, `CDbl()`, `IsNumeric()`, `IsDate()`
+
+### Partie Pratique (5-6h)
+- **Exercice 1** (⭐⭐) : Validation d'email - 30 min
+- **Exercice 2** (⭐⭐⭐) : Système de remises progressives - 60 min
+- **Exercice 3** (⭐⭐⭐) : Génération de références produits - 45 min
+- **Mini-Projet** (⭐⭐⭐⭐) : Catalogue produits complet - 120 min
+  - 5 fonctions à créer
+  - 1 procédure de traitement batch
+  - Grille d'évaluation sur 100 points
+
+---
+
+## 🏆 Évaluation
+
+### QCM (20 questions)
+- Section 1 : Appel de procédures et fonctions (4 questions)
+- Section 2 : ByRef vs ByVal (4 questions)
+- Section 3 : Fonctions VBA intégrées (8 questions)
+- Section 4 : Cas pratiques (4 questions)
+
+**Seuil de réussite** : 16/20 (80%)
+
+### Mini-Projet (100 points)
+| Critère | Points |
+|---------|--------|
+| Exactitude fonctionnelle | 40 |
+| Qualité du code | 20 |
+| Gestion d'erreurs | 15 |
+| Utilisation fonctions VBA | 15 |
+| Modularité | 10 |
+
+**Seuil de réussite** : 70/100
+
+---
+
+## 🔗 Ressources Complémentaires
+
+### Documentation Officielle
+- 📖 [Microsoft Learn - Procédures VBA](https://learn.microsoft.com/fr-fr/office/vba/language/reference/user-interface-help/sub-statement)
+- 📖 [Microsoft Learn - Fonctions VBA](https://learn.microsoft.com/fr-fr/office/vba/language/reference/functions-visual-basic-for-applications)
+- 📖 [ByRef vs ByVal](https://learn.microsoft.com/fr-fr/office/vba/language/concepts/getting-started/passing-arguments-by-value-and-by-reference)
+
+### Tutoriels
+- 🎥 [Leila Gharani - VBA Functions](https://www.youtube.com/@LeilaGharani)
+- 🌐 [Excel-Pratique - Procédures](https://www.excel-pratique.com/fr/vba/procedures)
+
+---
+
+## ⏭️ Module Suivant
+
+**Module 8 : Gestion des Erreurs et Débogage Avancé**
+- On Error GoTo : Gestion structurée des erreurs
+- Err.Number et Err.Description
+- Debug.Print et Debug.Assert
+- Fenêtre Espions et pile d'appels
+
+---
+
+## 📞 Support
+
+- 🐛 **Problèmes techniques** : Consulter [`GUIDE_INSTALLATION.md`](GUIDE_INSTALLATION.md) section "Résolution de Problèmes"
+- 💬 **Questions sur le cours** : [Stack Overflow - Tag VBA](https://stackoverflow.com/questions/tagged/vba)
+- 🌐 **Forums FR** : [Excel-Pratique](https://www.excel-pratique.com/fr/forum.php)
+
+---
+
+## 📈 Statistiques du Module
+
+- **Lignes de code** : ~1500 lignes VBA (exemples + solutions)
+- **Temps de formation** : 8-10 heures
+- **Fonctions VBA couvertes** : 30+
+- **Exercices pratiques** : 3 + 1 mini-projet
+- **Niveau** : Intermédiaire/Avancé (Niveau 3)
+
+---
+
+**Version** : 1.0 (05/11/2025)
+**Auteur** : Expert-Formateur VBA Excel - Certifications TOSA & ICDL
+**Licence** : Usage pédagogique libre
+
+---
+
+*Bon apprentissage ! 🚀*
