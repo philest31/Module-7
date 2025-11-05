@@ -1,0 +1,1514 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>QCM VBA Excel - Module 7 : Procédures avec Paramètres</title>
+
+  <style>
+    /* ═══════════════════════════════════════════════════════════
+       VARIABLES CSS - THÈME DUAL
+       ═══════════════════════════════════════════════════════════ */
+    :root {
+      --bg: #0e1840;
+      --card: #132142;
+      --text: #f3f7ff;
+      --muted: #94a3b8;
+      --brand: #3b82f6;
+      --brand-light: #60a5fa;
+      --ok: #22c55e;
+      --danger: #ff5d73;
+      --warning: #f59e0b;
+      --border: rgba(255,255,255,0.1);
+      --shadow: rgba(0,0,0,0.3);
+      --gradient-start: #1e3a8a;
+      --gradient-end: #7c3aed;
+    }
+
+    html[data-theme="light"] {
+      --bg: #f6f8ff;
+      --card: #ffffff;
+      --text: #0f172a;
+      --muted: #64748b;
+      --border: rgba(0,0,0,0.1);
+      --shadow: rgba(0,0,0,0.1);
+      --gradient-start: #dbeafe;
+      --gradient-end: #e0e7ff;
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       RESET & BASE
+       ═══════════════════════════════════════════════════════════ */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
+      color: var(--text);
+      line-height: 1.6;
+      min-height: 100vh;
+      padding-bottom: 100px;
+    }
+
+    .wrapper {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       HEADER
+       ═══════════════════════════════════════════════════════════ */
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: var(--card);
+      border-bottom: 1px solid var(--border);
+      box-shadow: 0 2px 10px var(--shadow);
+      padding: 20px 0;
+      margin-bottom: 30px;
+    }
+
+    .hero {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 30px;
+      flex-wrap: wrap;
+    }
+
+    .title {
+      font-size: 28px;
+      font-weight: 700;
+      background: linear-gradient(135deg, var(--brand), var(--brand-light));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 8px;
+    }
+
+    .subtitle {
+      color: var(--muted);
+      font-size: 14px;
+      margin-bottom: 12px;
+    }
+
+    .badges {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .badge {
+      background: var(--brand);
+      color: white;
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    .progress {
+      width: 300px;
+      height: 8px;
+      background: var(--border);
+      border-radius: 10px;
+      overflow: hidden;
+      margin-bottom: 15px;
+    }
+
+    #progressFill {
+      display: block;
+      height: 100%;
+      background: linear-gradient(90deg, var(--ok), var(--brand));
+      width: 0%;
+      transition: width 0.3s ease;
+    }
+
+    #themeToggle {
+      background: var(--brand);
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 600;
+      transition: all 0.2s;
+    }
+
+    #themeToggle:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px var(--shadow);
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       CARDS
+       ═══════════════════════════════════════════════════════════ */
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 30px;
+      margin-bottom: 30px;
+      box-shadow: 0 4px 20px var(--shadow);
+      transition: transform 0.2s;
+    }
+
+    .card:hover {
+      transform: translateY(-2px);
+    }
+
+    .card__header {
+      margin-bottom: 25px;
+    }
+
+    .pill {
+      display: inline-block;
+      background: var(--brand);
+      color: white;
+      padding: 6px 16px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 12px;
+    }
+
+    .card__title {
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    .card__body {
+      margin-bottom: 20px;
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       QUESTIONS - QCM CLASSIQUE
+       ═══════════════════════════════════════════════════════════ */
+    .question {
+      background: var(--bg);
+      border: 2px solid var(--border);
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+
+    .question__text {
+      font-size: 16px;
+      font-weight: 600;
+      margin-bottom: 15px;
+      color: var(--text);
+    }
+
+    .choices {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .choice {
+      background: var(--card);
+      border: 2px solid var(--border);
+      border-radius: 8px;
+      padding: 15px;
+      cursor: pointer;
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .choice:hover {
+      border-color: var(--brand);
+      transform: translateX(5px);
+    }
+
+    .choice.selected {
+      border-color: var(--brand);
+      background: var(--brand);
+      color: white;
+    }
+
+    .choice.correct {
+      border-color: var(--ok);
+      background: var(--ok);
+      color: white;
+    }
+
+    .choice.incorrect {
+      border-color: var(--danger);
+      background: var(--danger);
+      color: white;
+    }
+
+    .choice input[type="radio"] {
+      accent-color: var(--brand);
+      width: 20px;
+      height: 20px;
+      cursor: pointer;
+    }
+
+    .explanation {
+      background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(124, 58, 237, 0.1));
+      border-left: 4px solid var(--brand);
+      padding: 15px;
+      border-radius: 8px;
+      margin-top: 15px;
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       VRAI/FAUX
+       ═══════════════════════════════════════════════════════════ */
+    .vf-item {
+      background: var(--bg);
+      border: 2px solid var(--border);
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 15px;
+    }
+
+    .vf-statement {
+      font-size: 15px;
+      margin-bottom: 15px;
+      font-weight: 500;
+    }
+
+    .vf-buttons {
+      display: flex;
+      gap: 10px;
+    }
+
+    .vf-btn {
+      flex: 1;
+      padding: 12px;
+      border: 2px solid var(--border);
+      background: var(--card);
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: all 0.2s;
+    }
+
+    .vf-btn:hover {
+      border-color: var(--brand);
+      transform: scale(1.05);
+    }
+
+    .vf-btn.selected {
+      border-color: var(--brand);
+      background: var(--brand);
+      color: white;
+    }
+
+    .vf-btn.correct {
+      border-color: var(--ok);
+      background: var(--ok);
+      color: white;
+    }
+
+    .vf-btn.incorrect {
+      border-color: var(--danger);
+      background: var(--danger);
+      color: white;
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       ASSOCIATION (MATCHING)
+       ═══════════════════════════════════════════════════════════ */
+    .match-container {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 15px;
+      margin-top: 20px;
+    }
+
+    .match-left, .match-right {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .match-item {
+      background: var(--card);
+      border: 2px solid var(--border);
+      border-radius: 8px;
+      padding: 15px;
+      cursor: move;
+      transition: all 0.2s;
+      user-select: none;
+    }
+
+    .match-item:hover {
+      border-color: var(--brand);
+      transform: scale(1.02);
+    }
+
+    .match-item.selected {
+      border-color: var(--brand);
+      background: var(--brand);
+      color: white;
+    }
+
+    .match-item.correct {
+      border-color: var(--ok);
+      background: var(--ok);
+      color: white;
+    }
+
+    .match-item.incorrect {
+      border-color: var(--danger);
+      background: var(--danger);
+      color: white;
+    }
+
+    .match-instruction {
+      font-weight: 600;
+      margin-bottom: 15px;
+      color: var(--muted);
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       TEXTE À TROUS
+       ═══════════════════════════════════════════════════════════ */
+    .gaps-container {
+      background: var(--bg);
+      border: 2px solid var(--border);
+      border-radius: 12px;
+      padding: 20px;
+      margin-top: 20px;
+    }
+
+    .gaps-text {
+      font-family: 'Courier New', monospace;
+      font-size: 14px;
+      line-height: 2;
+      margin-bottom: 20px;
+      white-space: pre-wrap;
+    }
+
+    .gap-slot {
+      display: inline-block;
+      min-width: 100px;
+      padding: 4px 12px;
+      border: 2px dashed var(--border);
+      border-radius: 6px;
+      background: var(--card);
+      cursor: pointer;
+      transition: all 0.2s;
+      margin: 0 4px;
+    }
+
+    .gap-slot:hover {
+      border-color: var(--brand);
+    }
+
+    .gap-slot.filled {
+      border-style: solid;
+      border-color: var(--brand);
+      background: var(--brand);
+      color: white;
+    }
+
+    .gap-slot.correct {
+      border-color: var(--ok);
+      background: var(--ok);
+      color: white;
+    }
+
+    .gap-slot.incorrect {
+      border-color: var(--danger);
+      background: var(--danger);
+      color: white;
+    }
+
+    .word-bank {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      padding: 15px;
+      background: var(--card);
+      border-radius: 8px;
+      border: 2px solid var(--border);
+    }
+
+    .word-chip {
+      padding: 8px 16px;
+      background: var(--brand);
+      color: white;
+      border-radius: 20px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: all 0.2s;
+      font-size: 13px;
+    }
+
+    .word-chip:hover {
+      transform: scale(1.1);
+      box-shadow: 0 4px 12px var(--shadow);
+    }
+
+    .word-chip.used {
+      opacity: 0.3;
+      cursor: not-allowed;
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       BOUTONS
+       ═══════════════════════════════════════════════════════════ */
+    button {
+      font-family: inherit;
+      font-size: 14px;
+    }
+
+    .primary {
+      background: var(--brand);
+      color: white;
+      border: none;
+      padding: 12px 30px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: all 0.2s;
+      margin-right: 10px;
+    }
+
+    .primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px var(--shadow);
+    }
+
+    .primary:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .ghost {
+      background: transparent;
+      color: var(--text);
+      border: 2px solid var(--border);
+      padding: 12px 30px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: all 0.2s;
+    }
+
+    .ghost:hover {
+      border-color: var(--brand);
+      color: var(--brand);
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       SCORES & FEEDBACK
+       ═══════════════════════════════════════════════════════════ */
+    .score {
+      background: linear-gradient(135deg, var(--ok), var(--brand));
+      color: white;
+      padding: 20px;
+      border-radius: 12px;
+      margin-top: 20px;
+      font-size: 18px;
+      font-weight: 700;
+      text-align: center;
+    }
+
+    .score-details {
+      font-size: 14px;
+      margin-top: 10px;
+      opacity: 0.9;
+    }
+
+    .summary-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+
+    .summary-table th,
+    .summary-table td {
+      padding: 15px;
+      text-align: left;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .summary-table th {
+      background: var(--bg);
+      font-weight: 700;
+    }
+
+    .summary-table tr:hover {
+      background: var(--bg);
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       FOOTER
+       ═══════════════════════════════════════════════════════════ */
+    footer {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: var(--card);
+      border-top: 1px solid var(--border);
+      box-shadow: 0 -2px 10px var(--shadow);
+      z-index: 100;
+    }
+
+    .bar {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 15px 20px;
+      display: flex;
+      gap: 15px;
+      justify-content: center;
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       RESPONSIVE
+       ═══════════════════════════════════════════════════════════ */
+    @media (max-width: 768px) {
+      .hero {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .progress {
+        width: 100%;
+      }
+
+      .title {
+        font-size: 22px;
+      }
+
+      .match-container {
+        grid-template-columns: 1fr;
+      }
+
+      .bar {
+        flex-direction: column;
+      }
+
+      .card {
+        padding: 20px;
+      }
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       ANIMATIONS
+       ═══════════════════════════════════════════════════════════ */
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .card {
+      animation: fadeIn 0.5s ease;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+  </style>
+</head>
+
+<body>
+  <!-- ═══════════════════════════════════════════════════════════
+       HEADER
+       ═══════════════════════════════════════════════════════════ -->
+  <header>
+    <div class="wrapper hero">
+      <div>
+        <div class="title">📋 Module 7 - Procédures avec Paramètres</div>
+        <div class="subtitle">QCM Interactif VBA Excel - Certification TOSA & ICDL</div>
+        <div class="badges">
+          <span class="badge">Niveau : Intermédiaire/Avancé</span>
+          <span class="badge">📋 QCM</span>
+          <span class="badge">✅ Vrai/Faux</span>
+          <span class="badge">🔗 Association</span>
+          <span class="badge">📝 Texte à trous</span>
+        </div>
+      </div>
+      <div>
+        <div class="progress">
+          <span id="progressFill"></span>
+        </div>
+        <button id="themeToggle">☀️ Clair</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ═══════════════════════════════════════════════════════════
+       MAIN CONTENT
+       ═══════════════════════════════════════════════════════════ -->
+  <main class="wrapper">
+
+    <!-- SECTION 1: QCM CLASSIQUE -->
+    <section class="card" id="sec-qcm">
+      <div class="card__header">
+        <span class="pill">📋 QCM</span>
+        <h2 class="card__title">Questions à Choix Multiples</h2>
+      </div>
+      <div class="card__body" id="qcm-questions">
+        <!-- Généré dynamiquement -->
+      </div>
+      <div class="card__body">
+        <button class="primary" id="btn-qcm">Valider mes réponses</button>
+        <button class="ghost" id="btn-qcm-reset">Réinitialiser</button>
+        <div id="sc-qcm"></div>
+      </div>
+    </section>
+
+    <!-- SECTION 2: VRAI/FAUX -->
+    <section class="card" id="sec-vf">
+      <div class="card__header">
+        <span class="pill">✅ VRAI/FAUX</span>
+        <h2 class="card__title">Vrai ou Faux</h2>
+      </div>
+      <div class="card__body" id="vf-questions">
+        <!-- Généré dynamiquement -->
+      </div>
+      <div class="card__body">
+        <button class="primary" id="btn-vf">Valider mes réponses</button>
+        <button class="ghost" id="btn-vf-reset">Réinitialiser</button>
+        <div id="sc-vf"></div>
+      </div>
+    </section>
+
+    <!-- SECTION 3: ASSOCIATION -->
+    <section class="card" id="sec-match">
+      <div class="card__header">
+        <span class="pill">🔗 ASSOCIATION</span>
+        <h2 class="card__title">Associations</h2>
+      </div>
+      <div class="card__body">
+        <div class="match-instruction" id="match-instruction"></div>
+        <div class="match-container">
+          <div class="match-left" id="match-left"></div>
+          <div class="match-right" id="match-right"></div>
+        </div>
+      </div>
+      <div class="card__body">
+        <button class="primary" id="btn-match">Valider mes associations</button>
+        <button class="ghost" id="btn-match-reset">Réinitialiser</button>
+        <div id="sc-match"></div>
+      </div>
+    </section>
+
+    <!-- SECTION 4: TEXTE À TROUS -->
+    <section class="card" id="sec-gaps">
+      <div class="card__header">
+        <span class="pill">📝 TEXTE À TROUS</span>
+        <h2 class="card__title">Compléter le Code</h2>
+      </div>
+      <div class="card__body">
+        <div class="match-instruction" id="gaps-instruction"></div>
+        <div class="gaps-container">
+          <div class="gaps-text" id="gaps-text"></div>
+          <div class="word-bank" id="word-bank"></div>
+        </div>
+      </div>
+      <div class="card__body">
+        <button class="primary" id="btn-gaps">Valider le code</button>
+        <button class="ghost" id="btn-gaps-reset">Réinitialiser</button>
+        <div id="sc-gaps"></div>
+      </div>
+    </section>
+
+    <!-- SECTION 5: RÉCAPITULATIF -->
+    <section class="card" id="sec-summary">
+      <div class="card__header">
+        <h2 class="card__title">📊 Récapitulatif de vos Résultats</h2>
+      </div>
+      <div class="card__body" id="summary">
+        <p style="color: var(--muted);">Complétez toutes les sections pour voir votre récapitulatif.</p>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ═══════════════════════════════════════════════════════════
+       FOOTER
+       ═══════════════════════════════════════════════════════════ -->
+  <footer>
+    <div class="bar">
+      <button class="primary" id="btn-copy">📋 Copier mes résultats</button>
+      <button class="ghost" id="btn-all-reset">🔄 Tout réinitialiser</button>
+    </div>
+  </footer>
+
+  <!-- ═══════════════════════════════════════════════════════════
+       JAVASCRIPT
+       ═══════════════════════════════════════════════════════════ -->
+  <script>
+    // ═══════════════════════════════════════════════════════════
+    // DATA - CONTENU DU QCM
+    // ═══════════════════════════════════════════════════════════
+    const DATA = {
+      qcm: [
+        {
+          q: "Quelle est la syntaxe correcte pour appeler une procédure avec paramètres ?",
+          choices: [
+            "Call MaProcedure(arg1, arg2)",
+            "MaProcedure arg1, arg2",
+            "MaProcedure(arg1, arg2)",
+            "Toutes les réponses sont correctes"
+          ],
+          correct: 3,
+          explanation: "Les trois syntaxes sont valides en VBA. 'Call' est optionnel, et les parenthèses aussi si on n'utilise pas de valeur de retour. Cependant, pour les fonctions dont on récupère la valeur, les parenthèses sont obligatoires."
+        },
+        {
+          q: "Comment récupérer la valeur retournée par une fonction ?",
+          choices: [
+            "Call MaFonction(arg1)",
+            "resultat = MaFonction(arg1)",
+            "MaFonction arg1",
+            "Get MaFonction(arg1)"
+          ],
+          correct: 1,
+          explanation: "On récupère la valeur retournée via l'opérateur '=' : resultat = MaFonction(arg1). 'Call' et la syntaxe sans parenthèses ignorent la valeur de retour. 'Get' n'existe pas pour cet usage en VBA."
+        },
+        {
+          q: "Quelle déclaration permet de rendre un paramètre optionnel ?",
+          choices: [
+            "Sub Test(Optional x As Integer)",
+            "Sub Test(x As Integer = 10)",
+            "Sub Test([x As Integer])",
+            "A et B sont corrects"
+          ],
+          correct: 3,
+          explanation: "Les deux syntaxes sont valides : 'Optional' + valeur par défaut. Syntaxe complète : Sub Test(Optional x As Integer = 10). Les crochets ne sont pas une syntaxe VBA valide."
+        },
+        {
+          q: "Quel est le mode de passage de paramètres par défaut en VBA ?",
+          choices: [
+            "ByVal",
+            "ByRef",
+            "ByAddress",
+            "Il doit être spécifié obligatoirement"
+          ],
+          correct: 1,
+          explanation: "Si non spécifié, VBA utilise ByRef par défaut. Contrairement à d'autres langages comme C# qui utilisent ByVal par défaut. C'est important de toujours spécifier explicitement le mode pour éviter les modifications involontaires."
+        },
+        {
+          q: "Que fait le passage de paramètres ByVal ?",
+          choices: [
+            "Passe l'adresse mémoire de la variable",
+            "Permet à la procédure de modifier la variable originale",
+            "Passe une copie de la valeur",
+            "Est plus rapide pour les gros tableaux"
+          ],
+          correct: 2,
+          explanation: "ByVal crée une copie de la valeur. Les modifications dans la procédure n'affectent pas la variable originale. ByRef passe l'adresse mémoire. ByVal est plus lent pour les grosses structures à cause du coût de copie."
+        },
+        {
+          q: "Que retourne Len(\"Bonjour\") ?",
+          choices: ["6", "7", "8", "Erreur"],
+          correct: 1,
+          explanation: "\"Bonjour\" contient 7 caractères. Len() compte tous les caractères, espaces inclus. C'est une fonction fondamentale pour la validation de longueur de chaînes."
+        },
+        {
+          q: "Quelle fonction extrait \"VBA\" de \"Formation VBA Excel\" ?",
+          choices: [
+            "Mid(\"Formation VBA Excel\", 11, 3)",
+            "Left(\"Formation VBA Excel\", 3)",
+            "Right(\"Formation VBA Excel\", 3)",
+            "Extract(\"Formation VBA Excel\", \"VBA\")"
+          ],
+          correct: 0,
+          explanation: "Mid(chaîne, position_départ, longueur) : position 11 = début de 'VBA', longueur 3. Left() retourne 'For', Right() retourne 'cel'. Extract() n'existe pas en VBA."
+        },
+        {
+          q: "Comment obtenir la date du jour en VBA ?",
+          choices: [
+            "Today()",
+            "CurrentDate()",
+            "Date",
+            "GetDate()"
+          ],
+          correct: 2,
+          explanation: "Date (sans parenthèses) retourne la date du jour. Now retourne date + heure. Les autres fonctions n'existent pas en VBA (Today() existe dans d'autres langages)."
+        }
+      ],
+
+      vf: [
+        {
+          statement: "En VBA, si ByRef/ByVal n'est pas spécifié, le mode par défaut est ByRef",
+          answer: true,
+          explanation: "Correct ! Si non spécifié, VBA utilise ByRef par défaut, ce qui peut causer des modifications involontaires. Il est recommandé de toujours spécifier explicitement ByVal ou ByRef."
+        },
+        {
+          statement: "ByVal passe une copie de la valeur, la procédure ne peut pas modifier la variable originale",
+          answer: true,
+          explanation: "Exact ! ByVal crée une copie. Les modifications dans la procédure n'affectent pas la variable d'origine. C'est plus sûr mais consomme plus de mémoire pour les grosses structures."
+        },
+        {
+          statement: "Une Function peut retourner plusieurs valeurs simultanément",
+          answer: false,
+          explanation: "Faux ! Une Function ne peut retourner qu'une seule valeur via son nom. Pour retourner plusieurs valeurs, il faut utiliser des paramètres ByRef ou créer un Type personnalisé."
+        },
+        {
+          statement: "On peut appeler une Function sans récupérer sa valeur de retour",
+          answer: true,
+          explanation: "Oui, c'est techniquement possible mais peu logique. Si on n'utilise pas la valeur retournée, il vaut mieux créer une Sub. VBA n'empêche pas cet appel mais c'est une mauvaise pratique."
+        },
+        {
+          statement: "Round(3.7456, 2) retourne 3.74",
+          answer: false,
+          explanation: "Faux ! Round(3.7456, 2) retourne 3.75 (arrondi à 2 décimales). VBA utilise l'arrondi bancaire (banker's rounding) : 3.745 → 3.74 mais 3.7456 → 3.75."
+        },
+        {
+          statement: "La fonction Trim() supprime tous les espaces dans une chaîne",
+          answer: false,
+          explanation: "Faux ! Trim() supprime uniquement les espaces au début et à la fin de la chaîne. Pour supprimer tous les espaces, utiliser : Replace(texte, \" \", \"\")."
+        }
+      ],
+
+      match: {
+        instruction: "Associez chaque fonction VBA à sa description",
+        left: [
+          "Len(chaîne)",
+          "InStr(chaîne, recherche)",
+          "UCase(chaîne)",
+          "Format(valeur, format)"
+        ],
+        right: [
+          "Retourne la longueur d'une chaîne",
+          "Formate une valeur selon un masque",
+          "Convertit en majuscules",
+          "Cherche la position d'une sous-chaîne"
+        ],
+        pairs: [0, 3, 2, 1]
+      },
+
+      gaps: {
+        instruction: "Complétez cette fonction qui calcule la TVA",
+        textParts: [
+          {blank: "Function"},
+          " CalculerTVA(",
+          {blank: "ByVal"},
+          " montantHT ",
+          {blank: "As"},
+          " Double) ",
+          {blank: "As"},
+          " Double\n    CalculerTVA = montantHT * 1.2\n",
+          {blank: "End Function"}
+        ],
+        bank: ["Function", "Sub", "ByVal", "ByRef", "As", "Type", "End Function", "End Sub", "Return"]
+      }
+    };
+
+    // ═══════════════════════════════════════════════════════════
+    // STATE - GESTION D'ÉTAT
+    // ═══════════════════════════════════════════════════════════
+    const state = {
+      scores: {
+        qcm: null,
+        vf: null,
+        match: null,
+        gaps: null
+      },
+      answers: {
+        qcm: [],
+        vf: [],
+        match: [],
+        gaps: []
+      },
+      matchSelected: null
+    };
+
+    // ═══════════════════════════════════════════════════════════
+    // HELPERS
+    // ═══════════════════════════════════════════════════════════
+    const $ = id => document.getElementById(id);
+    const $$ = sel => [...document.querySelectorAll(sel)];
+
+    function shuffle(array) {
+      const arr = [...array];
+      for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+      }
+      return arr;
+    }
+
+    // ═══════════════════════════════════════════════════════════
+    // BUILD QCM
+    // ═══════════════════════════════════════════════════════════
+    function buildQCM() {
+      const container = $('qcm-questions');
+      container.innerHTML = DATA.qcm.map((item, qIdx) => `
+        <div class="question">
+          <div class="question__text">${qIdx + 1}. ${item.q}</div>
+          <div class="choices">
+            ${item.choices.map((choice, cIdx) => `
+              <label class="choice" data-q="${qIdx}" data-c="${cIdx}">
+                <input type="radio" name="qcm-${qIdx}" value="${cIdx}">
+                <span>${choice}</span>
+              </label>
+            `).join('')}
+          </div>
+          <div class="explanation hidden" id="exp-qcm-${qIdx}"></div>
+        </div>
+      `).join('');
+    }
+
+    // ═══════════════════════════════════════════════════════════
+    // BUILD VRAI/FAUX
+    // ═══════════════════════════════════════════════════════════
+    function buildVF() {
+      const container = $('vf-questions');
+      container.innerHTML = DATA.vf.map((item, idx) => `
+        <div class="vf-item">
+          <div class="vf-statement">${idx + 1}. ${item.statement}</div>
+          <div class="vf-buttons">
+            <button class="vf-btn" data-idx="${idx}" data-answer="true">✓ Vrai</button>
+            <button class="vf-btn" data-idx="${idx}" data-answer="false">✗ Faux</button>
+          </div>
+          <div class="explanation hidden" id="exp-vf-${idx}"></div>
+        </div>
+      `).join('');
+
+      $$('.vf-btn').forEach(btn => {
+        btn.onclick = () => {
+          const idx = btn.dataset.idx;
+          $$(`[data-idx="${idx}"]`).forEach(b => b.classList.remove('selected'));
+          btn.classList.add('selected');
+          state.answers.vf[idx] = btn.dataset.answer === 'true';
+        };
+      });
+    }
+
+    // ═══════════════════════════════════════════════════════════
+    // BUILD ASSOCIATION
+    // ═══════════════════════════════════════════════════════════
+    function buildMatch() {
+      const {instruction, left, right} = DATA.match;
+      $('match-instruction').textContent = instruction;
+
+      const shuffledRight = shuffle(right.map((txt, i) => ({txt, idx: i})));
+
+      $('match-left').innerHTML = left.map((txt, i) => `
+        <div class="match-item" data-left="${i}">${txt}</div>
+      `).join('');
+
+      $('match-right').innerHTML = shuffledRight.map(item => `
+        <div class="match-item" data-right="${item.idx}">${item.txt}</div>
+      `).join('');
+
+      $$('.match-item').forEach(item => {
+        item.onclick = () => {
+          if (item.dataset.left !== undefined) {
+            $$('[data-left]').forEach(el => el.classList.remove('selected'));
+            item.classList.add('selected');
+            state.matchSelected = parseInt(item.dataset.left);
+          } else {
+            if (state.matchSelected !== null) {
+              state.answers.match[state.matchSelected] = parseInt(item.dataset.right);
+              $$('[data-left]').forEach(el => el.classList.remove('selected'));
+              state.matchSelected = null;
+              updateMatchVisual();
+            }
+          }
+        };
+      });
+    }
+
+    function updateMatchVisual() {
+      state.answers.match.forEach((rightIdx, leftIdx) => {
+        if (rightIdx !== undefined) {
+          const leftEl = $(`[data-left="${leftIdx}"]`);
+          const rightEl = $(`[data-right="${rightIdx}"]`);
+          if (leftEl && rightEl) {
+            leftEl.style.opacity = '0.5';
+            rightEl.style.opacity = '0.5';
+          }
+        }
+      });
+    }
+
+    // ═══════════════════════════════════════════════════════════
+    // BUILD TEXTE À TROUS
+    // ═══════════════════════════════════════════════════════════
+    function buildGaps() {
+      const {instruction, textParts, bank} = DATA.gaps;
+      $('gaps-instruction').textContent = instruction;
+
+      let html = '';
+      let gapIdx = 0;
+      textParts.forEach(part => {
+        if (typeof part === 'string') {
+          html += part;
+        } else {
+          html += `<span class="gap-slot" data-gap="${gapIdx}" data-correct="${part.blank}"></span>`;
+          gapIdx++;
+        }
+      });
+
+      $('gaps-text').innerHTML = html;
+      $('word-bank').innerHTML = shuffle(bank).map(word =>
+        `<span class="word-chip" data-word="${word}">${word}</span>`
+      ).join('');
+
+      $$('.gap-slot').forEach(slot => {
+        slot.onclick = () => {
+          if (slot.classList.contains('filled')) {
+            const word = slot.textContent;
+            slot.textContent = '';
+            slot.classList.remove('filled');
+            $$(`[data-word="${word}"]`).forEach(chip => chip.classList.remove('used'));
+          }
+        };
+      });
+
+      $$('.word-chip').forEach(chip => {
+        chip.onclick = () => {
+          if (chip.classList.contains('used')) return;
+
+          const word = chip.dataset.word;
+          const emptySlot = $$('.gap-slot:not(.filled)')[0];
+
+          if (emptySlot) {
+            emptySlot.textContent = word;
+            emptySlot.classList.add('filled');
+            chip.classList.add('used');
+          }
+        };
+      });
+    }
+
+    // ═══════════════════════════════════════════════════════════
+    // VALIDATE QCM
+    // ═══════════════════════════════════════════════════════════
+    function validateQCM() {
+      let correct = 0;
+      const total = DATA.qcm.length;
+
+      DATA.qcm.forEach((item, qIdx) => {
+        const selected = document.querySelector(`input[name="qcm-${qIdx}"]:checked`);
+        const choiceEls = $$(`[data-q="${qIdx}"]`);
+
+        choiceEls.forEach(el => {
+          el.style.pointerEvents = 'none';
+          const cIdx = parseInt(el.dataset.c);
+
+          if (cIdx === item.correct) {
+            el.classList.add('correct');
+          } else if (selected && parseInt(selected.value) === cIdx) {
+            el.classList.add('incorrect');
+          }
+        });
+
+        const expEl = $(`exp-qcm-${qIdx}`);
+        expEl.classList.remove('hidden');
+        expEl.innerHTML = `<strong>${selected && parseInt(selected.value) === item.correct ? '✓ Correct !' : '✗ Incorrect.'}</strong> ${item.explanation}`;
+
+        if (selected && parseInt(selected.value) === item.correct) {
+          correct++;
+        }
+      });
+
+      const percentage = Math.round((correct / total) * 100);
+      const grade = getGrade(percentage);
+
+      state.scores.qcm = {correct, total, percentage, grade};
+
+      $('sc-qcm').innerHTML = `
+        <div class="score">
+          ${grade} ${correct}/${total} (${percentage}%)
+          <div class="score-details">Vous avez répondu correctement à ${correct} question(s) sur ${total}</div>
+        </div>
+      `;
+
+      $('btn-qcm').disabled = true;
+      updateProgress();
+      renderSummary();
+    }
+
+    // ═══════════════════════════════════════════════════════════
+    // VALIDATE VRAI/FAUX
+    // ═══════════════════════════════════════════════════════════
+    function validateVF() {
+      let correct = 0;
+      const total = DATA.vf.length;
+
+      DATA.vf.forEach((item, idx) => {
+        const userAnswer = state.answers.vf[idx];
+        const buttons = $$(`[data-idx="${idx}"]`);
+
+        buttons.forEach(btn => {
+          btn.style.pointerEvents = 'none';
+          const btnAnswer = btn.dataset.answer === 'true';
+
+          if (btnAnswer === item.answer) {
+            btn.classList.add('correct');
+          } else if (userAnswer !== undefined && btnAnswer === userAnswer) {
+            btn.classList.add('incorrect');
+          }
+        });
+
+        const expEl = $(`exp-vf-${idx}`);
+        expEl.classList.remove('hidden');
+        expEl.innerHTML = `<strong>${userAnswer === item.answer ? '✓ Correct !' : '✗ Incorrect.'}</strong> ${item.explanation}`;
+
+        if (userAnswer === item.answer) {
+          correct++;
+        }
+      });
+
+      const percentage = Math.round((correct / total) * 100);
+      const grade = getGrade(percentage);
+
+      state.scores.vf = {correct, total, percentage, grade};
+
+      $('sc-vf').innerHTML = `
+        <div class="score">
+          ${grade} ${correct}/${total} (${percentage}%)
+          <div class="score-details">Vous avez répondu correctement à ${correct} affirmation(s) sur ${total}</div>
+        </div>
+      `;
+
+      $('btn-vf').disabled = true;
+      updateProgress();
+      renderSummary();
+    }
+
+    // ═══════════════════════════════════════════════════════════
+    // VALIDATE ASSOCIATION
+    // ═══════════════════════════════════════════════════════════
+    function validateMatch() {
+      let correct = 0;
+      const total = DATA.match.left.length;
+
+      DATA.match.pairs.forEach((correctRight, leftIdx) => {
+        const userRight = state.answers.match[leftIdx];
+        const leftEl = $(`[data-left="${leftIdx}"]`);
+
+        if (userRight !== undefined) {
+          const rightEl = $(`[data-right="${userRight}"]`);
+
+          if (userRight === correctRight) {
+            leftEl.classList.add('correct');
+            rightEl.classList.add('correct');
+            correct++;
+          } else {
+            leftEl.classList.add('incorrect');
+            rightEl.classList.add('incorrect');
+          }
+        }
+      });
+
+      const percentage = Math.round((correct / total) * 100);
+      const grade = getGrade(percentage);
+
+      state.scores.match = {correct, total, percentage, grade};
+
+      $('sc-match').innerHTML = `
+        <div class="score">
+          ${grade} ${correct}/${total} (${percentage}%)
+          <div class="score-details">Vous avez correctement associé ${correct} paire(s) sur ${total}</div>
+        </div>
+      `;
+
+      $$('.match-item').forEach(el => el.style.pointerEvents = 'none');
+      $('btn-match').disabled = true;
+      updateProgress();
+      renderSummary();
+    }
+
+    // ═══════════════════════════════════════════════════════════
+    // VALIDATE TEXTE À TROUS
+    // ═══════════════════════════════════════════════════════════
+    function validateGaps() {
+      let correct = 0;
+      const slots = $$('.gap-slot');
+      const total = slots.length;
+
+      slots.forEach(slot => {
+        const userAnswer = slot.textContent.trim();
+        const correctAnswer = slot.dataset.correct;
+
+        if (userAnswer === correctAnswer) {
+          slot.classList.add('correct');
+          correct++;
+        } else {
+          slot.classList.add('incorrect');
+        }
+
+        slot.style.pointerEvents = 'none';
+      });
+
+      $$('.word-chip').forEach(chip => chip.style.pointerEvents = 'none');
+
+      const percentage = Math.round((correct / total) * 100);
+      const grade = getGrade(percentage);
+
+      state.scores.gaps = {correct, total, percentage, grade};
+
+      $('sc-gaps').innerHTML = `
+        <div class="score">
+          ${grade} ${correct}/${total} (${percentage}%)
+          <div class="score-details">Vous avez complété correctement ${correct} trou(s) sur ${total}</div>
+        </div>
+      `;
+
+      $('btn-gaps').disabled = true;
+      updateProgress();
+      renderSummary();
+    }
+
+    // ═══════════════════════════════════════════════════════════
+    // RESET FUNCTIONS
+    // ═══════════════════════════════════════════════════════════
+    function resetQCM() {
+      buildQCM();
+      state.scores.qcm = null;
+      $('sc-qcm').innerHTML = '';
+      $('btn-qcm').disabled = false;
+      updateProgress();
+      renderSummary();
+    }
+
+    function resetVF() {
+      buildVF();
+      state.answers.vf = [];
+      state.scores.vf = null;
+      $('sc-vf').innerHTML = '';
+      $('btn-vf').disabled = false;
+      updateProgress();
+      renderSummary();
+    }
+
+    function resetMatch() {
+      buildMatch();
+      state.answers.match = [];
+      state.matchSelected = null;
+      state.scores.match = null;
+      $('sc-match').innerHTML = '';
+      $('btn-match').disabled = false;
+      updateProgress();
+      renderSummary();
+    }
+
+    function resetGaps() {
+      buildGaps();
+      state.scores.gaps = null;
+      $('sc-gaps').innerHTML = '';
+      $('btn-gaps').disabled = false;
+      updateProgress();
+      renderSummary();
+    }
+
+    function resetAll() {
+      if (confirm('Êtes-vous sûr de vouloir tout réinitialiser ?')) {
+        resetQCM();
+        resetVF();
+        resetMatch();
+        resetGaps();
+      }
+    }
+
+    // ═══════════════════════════════════════════════════════════
+    // PROGRESSION & SUMMARY
+    // ═══════════════════════════════════════════════════════════
+    function updateProgress() {
+      const completed = Object.values(state.scores).filter(s => s !== null).length;
+      const total = 4;
+      const percentage = (completed / total) * 100;
+      $('progressFill').style.width = percentage + '%';
+    }
+
+    function renderSummary() {
+      const allCompleted = Object.values(state.scores).every(s => s !== null);
+
+      if (!allCompleted) {
+        $('summary').innerHTML = '<p style="color: var(--muted);">Complétez toutes les sections pour voir votre récapitulatif.</p>';
+        return;
+      }
+
+      const totalCorrect = Object.values(state.scores).reduce((sum, s) => sum + s.correct, 0);
+      const totalQuestions = Object.values(state.scores).reduce((sum, s) => sum + s.total, 0);
+      const globalPercentage = Math.round((totalCorrect / totalQuestions) * 100);
+      const globalGrade = getGrade(globalPercentage);
+
+      const html = `
+        <div class="score">
+          ${globalGrade} Score Global : ${totalCorrect}/${totalQuestions} (${globalPercentage}%)
+          <div class="score-details">
+            ${globalPercentage >= 80 ? '🎉 Excellent travail ! Vous maîtrisez les procédures avec paramètres.' :
+              globalPercentage >= 60 ? '👍 Bon travail ! Quelques révisions recommandées.' :
+              '📚 Continuez à pratiquer. Relisez le cours et refaites les exercices.'}
+          </div>
+        </div>
+
+        <table class="summary-table">
+          <thead>
+            <tr>
+              <th>Section</th>
+              <th>Score</th>
+              <th>Pourcentage</th>
+              <th>Appréciation</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>📋 QCM</td>
+              <td>${state.scores.qcm.correct}/${state.scores.qcm.total}</td>
+              <td>${state.scores.qcm.percentage}%</td>
+              <td>${state.scores.qcm.grade}</td>
+            </tr>
+            <tr>
+              <td>✅ Vrai/Faux</td>
+              <td>${state.scores.vf.correct}/${state.scores.vf.total}</td>
+              <td>${state.scores.vf.percentage}%</td>
+              <td>${state.scores.vf.grade}</td>
+            </tr>
+            <tr>
+              <td>🔗 Association</td>
+              <td>${state.scores.match.correct}/${state.scores.match.total}</td>
+              <td>${state.scores.match.percentage}%</td>
+              <td>${state.scores.match.grade}</td>
+            </tr>
+            <tr>
+              <td>📝 Texte à trous</td>
+              <td>${state.scores.gaps.correct}/${state.scores.gaps.total}</td>
+              <td>${state.scores.gaps.percentage}%</td>
+              <td>${state.scores.gaps.grade}</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div style="margin-top: 20px; padding: 15px; background: var(--bg); border-radius: 8px; border-left: 4px solid var(--brand);">
+          <strong>💡 Recommandations :</strong>
+          <ul style="margin-top: 10px; margin-left: 20px;">
+            ${globalPercentage < 80 ? '<li>Relisez les sections du cours sur les points manqués</li>' : ''}
+            ${state.scores.qcm.percentage < 80 ? '<li>Pratiquez davantage les appels de procédures et fonctions</li>' : ''}
+            ${state.scores.vf.percentage < 80 ? '<li>Révisez les concepts de ByRef vs ByVal</li>' : ''}
+            ${state.scores.match.percentage < 80 ? '<li>Mémorisez les fonctions VBA intégrées et leurs usages</li>' : ''}
+            ${state.scores.gaps.percentage < 80 ? '<li>Entraînez-vous à écrire du code VBA de mémoire</li>' : ''}
+            ${globalPercentage >= 80 ? '<li>✅ Excellent ! Passez au Module 8 : Gestion des Erreurs</li>' : ''}
+          </ul>
+        </div>
+      `;
+
+      $('summary').innerHTML = html;
+    }
+
+    function getGrade(percentage) {
+      if (percentage >= 90) return '🏆 Excellent';
+      if (percentage >= 75) return '👍 Très bien';
+      if (percentage >= 60) return '✅ Bien';
+      if (percentage >= 50) return '⚠️ Passable';
+      return '❌ À revoir';
+    }
+
+    // ═══════════════════════════════════════════════════════════
+    // COPY RESULTS
+    // ═══════════════════════════════════════════════════════════
+    function copyResults() {
+      const allCompleted = Object.values(state.scores).every(s => s !== null);
+
+      if (!allCompleted) {
+        alert('Veuillez compléter toutes les sections avant de copier les résultats.');
+        return;
+      }
+
+      const totalCorrect = Object.values(state.scores).reduce((sum, s) => sum + s.correct, 0);
+      const totalQuestions = Object.values(state.scores).reduce((sum, s) => sum + s.total, 0);
+      const globalPercentage = Math.round((totalCorrect / totalQuestions) * 100);
+
+      const text = `
+QCM VBA Excel - Module 7 : Procédures avec Paramètres
+═══════════════════════════════════════════════════════
+
+RÉSULTATS GLOBAUX
+Score : ${totalCorrect}/${totalQuestions} (${globalPercentage}%)
+
+DÉTAIL PAR SECTION
+─────────────────────────────────────────────────────
+📋 QCM : ${state.scores.qcm.correct}/${state.scores.qcm.total} (${state.scores.qcm.percentage}%)
+✅ Vrai/Faux : ${state.scores.vf.correct}/${state.scores.vf.total} (${state.scores.vf.percentage}%)
+🔗 Association : ${state.scores.match.correct}/${state.scores.match.total} (${state.scores.match.percentage}%)
+📝 Texte à trous : ${state.scores.gaps.correct}/${state.scores.gaps.total} (${state.scores.gaps.percentage}%)
+
+APPRÉCIATION : ${getGrade(globalPercentage)}
+
+Date : ${new Date().toLocaleDateString('fr-FR')}
+      `.trim();
+
+      navigator.clipboard.writeText(text).then(() => {
+        alert('✅ Résultats copiés dans le presse-papiers !');
+      });
+    }
+
+    // ═══════════════════════════════════════════════════════════
+    // THEME TOGGLE
+    // ═══════════════════════════════════════════════════════════
+    function toggleTheme() {
+      const html = document.documentElement;
+      const current = html.getAttribute('data-theme');
+      const newTheme = current === 'light' ? 'dark' : 'light';
+
+      html.setAttribute('data-theme', newTheme);
+      $('themeToggle').textContent = newTheme === 'light' ? '🌙 Sombre' : '☀️ Clair';
+
+      localStorage.setItem('theme', newTheme);
+    }
+
+    // ═══════════════════════════════════════════════════════════
+    // INIT
+    // ═══════════════════════════════════════════════════════════
+    (function init() {
+      // Build sections
+      buildQCM();
+      buildVF();
+      buildMatch();
+      buildGaps();
+
+      // Event listeners
+      $('btn-qcm').onclick = validateQCM;
+      $('btn-qcm-reset').onclick = resetQCM;
+
+      $('btn-vf').onclick = validateVF;
+      $('btn-vf-reset').onclick = resetVF;
+
+      $('btn-match').onclick = validateMatch;
+      $('btn-match-reset').onclick = resetMatch;
+
+      $('btn-gaps').onclick = validateGaps;
+      $('btn-gaps-reset').onclick = resetGaps;
+
+      $('btn-copy').onclick = copyResults;
+      $('btn-all-reset').onclick = resetAll;
+
+      $('themeToggle').onclick = toggleTheme;
+
+      // Load saved theme
+      const savedTheme = localStorage.getItem('theme') || 'dark';
+      document.documentElement.setAttribute('data-theme', savedTheme);
+      $('themeToggle').textContent = savedTheme === 'light' ? '🌙 Sombre' : '☀️ Clair';
+
+      // Initial render
+      updateProgress();
+      renderSummary();
+    })();
+  </script>
+</body>
+</html>
