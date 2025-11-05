@@ -788,6 +788,18 @@ Ce module couvre les procédures et fonctions avec paramètres en VBA Excel, inc
   - Mini-projet d'évaluation (système de gestion de catalogue)
   - Durée estimée : 8-10 heures
 
+- **`QCM-Module-7-Interactif.html`** (Nouveau ! 120 Ko)
+  - QCM interactif moderne avec 4 types de questions
+  - 8 questions à choix multiples (QCM)
+  - 6 questions Vrai/Faux
+  - 4 associations (matching)
+  - 1 exercice de code à trous
+  - Thème dual (mode clair/sombre)
+  - Feedback instantané avec explications détaillées
+  - Copie des résultats dans le presse-papiers
+  - 100% offline, aucune dépendance
+  - Responsive (mobile/tablette/desktop)
+
 ### 💻 Code VBA Prêt à l'Emploi
 - **`Module_Exemples.bas`** (8 Ko)
   - Exemple 1 : Procédure avec paramètres simples
@@ -838,6 +850,14 @@ Ce module couvre les procédures et fonctions avec paramètres en VBA Excel, inc
 2. **Pratiquer** avec les exercices proposés
 3. **Comparer** avec les solutions dans `Module_Exercices_Solutions.bas`
 4. **Évaluer** vos compétences avec le QCM et le mini-projet
+
+### Option 3 : QCM Interactif (Auto-évaluation)
+
+1. **Ouvrir** `QCM-Module-7-Interactif.html` dans votre navigateur
+2. **Répondre** aux 4 sections de questions
+3. **Valider** chaque section pour voir les corrections
+4. **Consulter** votre score global et les recommandations
+5. ✅ Objectif : 80% minimum pour passer au Module 8
 
 ---
 
